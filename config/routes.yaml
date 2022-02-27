@@ -1,0 +1,21 @@
+#index:
+#    path: /
+#    controller: App\Controller\DefaultController::index
+
+#RUTAS PARA EL CONTROLADOR DE USUARIO
+
+user:
+    path: /user
+    controller: App\Controller\UserController::index
+
+
+
+#RUTAS PARA EL CONTROLADOR DE OPENSKY
+
+opensky:
+    path: /opensky
+    controller: App\Controller\OpenskyController::index
+
+fetchFlightInformation:
+  path: /opensky/fetchFlightInformation
+  controller: App\Controller\OpenskyController::fetchFlightInformation
