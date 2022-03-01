@@ -4,55 +4,59 @@ namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Contracts\HttpClient\HttpClientInterface;  
+use App\Entity\Flight;
+use App\Services\OpenskyService;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Routing\Annotation\Route;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
-use Symfony\Contracts\HttpClient\HttpClientInterface;
-use Symfony\Component\HttpFoundation\JsonResponse;
-
-use App\Entity\Flight
+use DateTime;
 
 class OpenskyController extends AbstractController
 {
 
-    private $client;
-   
+    /**
+     * Array de Flight- Aquí se guardan todos los vuelos de la consulta API
+     * @access public    
+     */
+    public $flightArray;
+
+
+
     public function index(): Response
     {
-        return $this->render('opensky/index.html.twig', [
-            'controller_name' => 'OpenskyController',
+      //Llamamos al método para completar el array de vuelos
+     
+       return $this->render('opensky/flightlist.html.twig', [
+        'controller_name' => 'Lista de vuelos'        
         ]);
     }
 
-    /**
-     * Return a JSON with the information of preccess 
-     * @access public
-     * @param request
-     * @return JSON
-     */
-
-    public function __construct(HttpClientInterface $client)
+    
+    //En el constructor llamamos al servicio que nos devuelve el array de vuelos para pintarlos en la vista
+    public function __construct(OpenskyService $oss)
     {
-        $this->client = $client;
+       /* $begin = new DateTime("01/01/2022"); //Fecha de prueba
+        $end = new DateTime("01/04/2022"); //Fecha de prueba
+        $airport = 'UUEE'; //Aeropuerto de prueba
+        $this->flightArray = $oss->fetchFlightInformation('UUEE',$begin->getTimestamp(),$end->getTimestamp());*/
+       
     }
 
-    public function fetchFlightInformation(): array
-    {
-        $response = $this->client->request(
-            'GET',
-            'https://opensky-network.org/api/flights/arrival?airport=EDDF&begin=1517227200&end=1517230800'
-        );
-
-        
-      // $content = $response->toArray();
-        // $content = ['id' => 521583, 'name' => 'symfony-docs', ...]
-
-        echo  $content;
+    public function allAirports(OpenskyService $oss): Response{
+        return $oss->fetchAllAirports();    
     }
-
-
-
-
+    public function FlightInformation(Request $request,OpenskyService $oss): Response{
+        $airport = $request->get('airport');
+        $begin = $request->get('begin');
+        $end = $request->get('end');
+        return $oss->fetchFlightInformation( $airport, $begin,$end  ); 
+    }
+    //Buscamos todos los vuelos y sus datos y coordenadas
+    public function allStates(Request $request,OpenskyService $oss): Response{
+        $lamin = -180;
+        $lamax = 180;
+        $lomin = -180;
+        $lomax = 180;
+        return $oss->fetchStateInformation($lamin,$lamax ,$lomin,$lomax); 
+    }
 
 }

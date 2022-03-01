@@ -3,8 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+
 
 /**
  * Flight
@@ -12,7 +11,7 @@ use Doctrine\Common\Collections\Collection;
  * @ORM\Table(name="flight")
  * @ORM\Entity
  */
-class Flight implements JsonSerializable
+class Flight implements \JsonSerializable
 {
     /**
      * @var int
@@ -107,6 +106,8 @@ class Flight implements JsonSerializable
      */
     private $arrivalAirportCandidatesCount;
 
+    
+  
     public function getId(): ?int
     {
         return $this->id;
@@ -255,6 +256,27 @@ class Flight implements JsonSerializable
 
         return $this;
     }
-
+    
+    /**
+     * Al ser serializable, nos obliga a reescribir el método jsonSerializable
+     * @access public    
+     */
+   public function jsonSerialize(): array
+   {
+       return [            
+           'icao24' => $this->icao24,
+           'firstSeen' => $this->firstSeen,
+           'estDepartureAirport' => $this->estDepartureAirport,
+           'lastSeen' => $this->lastSeen,
+           'estArrivalAirport' => $this->estArrivalAirport,
+           'callsign' => $this->callsign,
+           'estDepartureAirportHorizDistance' => $this->estDepartureAirportHorizDistance,
+           'estDepartureAirportVertDistance' => $this->estDepartureAirportVertDistance,
+           'estArrivalAirportHorizDistance' => $this->estArrivalAirportHorizDistance,
+           'estArrivalAirportVertDistance' => $this->estArrivalAirportVertDistance,
+           'departureAirportCandidatesCount' => $this->departureAirportCandidatesCount,
+           'arrivalAirportCandidatesCount' => $this->arrivalAirportCandidatesCount                     
+       ];
+   }
 
 }

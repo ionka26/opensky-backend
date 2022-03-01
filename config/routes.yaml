@@ -16,6 +16,17 @@ opensky:
     path: /opensky
     controller: App\Controller\OpenskyController::index
 
-fetchFlightInformation:
-  path: /opensky/fetchFlightInformation
-  controller: App\Controller\OpenskyController::fetchFlightInformation
+airports:
+    path: /airports
+    controller: App\Controller\OpenskyController::allAirports
+
+flights:
+    path: /flights/{airport}/{begin}/{end}
+    controller: App\Controller\OpenskyController::FlightInformation
+    methods: GET
+
+map:
+    path: /states
+    controller: App\Controller\OpenskyController::allStates
+    methods: GET
+

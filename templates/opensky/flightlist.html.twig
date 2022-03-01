@@ -1,0 +1,83 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello OpenskyController!{% endblock %}
+
+{% block body %}
+<style>
+    .example-wrapper { margin: 1em auto;  width: 95%; font: 18px/1.5 sans-serif; }
+    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+    .styled-table {
+        border-collapse: collapse;
+        margin: 25px 0;
+        font-size: 0.9em;
+        font-family: sans-serif;
+        min-width: 400px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+    }
+    .styled-table thead tr {
+        background-color: #009879;
+        color: #ffffff;
+        text-align: left;
+    }
+    .styled-table th,
+    .styled-table td {
+        padding: 12px 15px;
+    }
+    .styled-table tbody tr {
+    border-bottom: 1px solid #dddddd;
+    }
+
+    .styled-table tbody tr:nth-of-type(even) {
+        background-color: #f3f3f3;
+    }
+
+    .styled-table tbody tr:last-of-type {
+        border-bottom: 2px solid #009879;
+    }
+    
+</style>
+
+<div class="example-wrapper">
+    <h1> {{ controller_name }}! </h1>
+
+   
+
+
+    <table class="styled-table">
+        <thead>
+        <tr>
+            <th>icao24</th>
+            <th>firstSeen</th>
+            <th>estDepartureAirport</th>
+            <th>lastSeen</th>
+            <th>estArrivalAirport</th>
+            <th>callsign</th>
+            <th>estDepartureAirportHorizDistance</th>
+            <th>estDepartureAirportVertDistance</th>
+            <th>estArrivalAirportHorizDistance</th>
+            <th>estArrivalAirportVertDistance</th>
+            <th>departureAirportCandidatesCount</th>
+            <th>arrivalAirportCandidatesCount</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for flight in flightArray %}
+        <tr>         
+            <td>{{ flight.icao24 }}</td>
+            <td>{{ flight.firstSeen }}</td>
+            <td>{{ flight.estDepartureAirport }}</td>
+            <td>{{ flight.lastSeen }}</td>
+            <td>{{ flight.estArrivalAirport }}</td>
+            <td>{{ flight.callsign }}</td>
+            <td>{{ flight.estDepartureAirportHorizDistance }}</td>
+            <td>{{ flight.estDepartureAirportVertDistance }}</td>
+            <td>{{ flight.estArrivalAirportHorizDistance }}</td>
+            <td>{{ flight.estArrivalAirportVertDistance }}</td>
+            <td>{{ flight.departureAirportCandidatesCount }}</td>
+            <td>{{ flight.arrivalAirportCandidatesCount }}</td>
+        </tr>
+        {% endfor %}
+         </tbody>
+        </table>
+</div>
+{% endblock %}
